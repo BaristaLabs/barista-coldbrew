@@ -1,0 +1,2 @@
+C:\Projects\BaristaLabs.ColdBrew\barista-coldbrew\obj\Debug\barista-coldbrew.njsprojResolveAssemblyReference.cache
+C:\Projects\BaristaLabs.ColdBrew\barista-coldbrew\bin\Microsoft.NodejsTools.WebRole.dll
