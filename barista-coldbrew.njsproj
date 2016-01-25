@@ -32,6 +32,8 @@
   <ItemGroup>
     <Compile Include="main.js" />
     <Compile Include="preload.js" />
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
