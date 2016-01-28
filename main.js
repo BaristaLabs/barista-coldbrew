@@ -17,10 +17,7 @@ app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        if (baristaServer) {
-
-            baristaServer.close();
-        }
+        BaristaServer.shutdown();
         app.quit();
     }
 });
@@ -51,7 +48,6 @@ app.on('ready', function (e) {
    
     // and load the index.html of the app.
     mainWindow.loadUrl('file://' + path.join(__dirname, 'node_modules/barista-fiddle/fiddle/index.html'));
-    console.log(path.join(__dirname, 'node_modules/barista-fiddle/fiddle/index.html'));
     
     //when the dom is ready, create a barista server.
     mainWindow.webContents.on('dom-ready', function (e) {
