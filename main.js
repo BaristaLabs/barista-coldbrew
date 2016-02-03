@@ -5,7 +5,12 @@ var BrowserWindow = require('browser-window');
 var BaristaServer = requireUncached("../barista-core/server.js");
 
 // Report crashes to our server.
-require('crash-reporter').start();
+//TODO: yeah, so I think we need an endpoint for this...
+
+/*require('crash-reporter').start({
+    productName: 'ColdBrew',
+    companyName: 'BaristaLabs, LLC',
+});*/
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -47,7 +52,7 @@ app.on('ready', function (e) {
     });
    
     // and load the index.html of the app.
-    mainWindow.loadUrl('file://' + path.join(__dirname, 'node_modules/barista-fiddle/fiddle/index.html'));
+    mainWindow.loadURL('file://' + path.join(__dirname, 'node_modules/barista-fiddle/fiddle/index.html'));
     
     //when the dom is ready, create a barista server.
     mainWindow.webContents.on('dom-ready', function (e) {
