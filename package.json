@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "acorn": "^2.7.0",
-    "barista-core": "latest",
-    "barista-fiddle": "latest",
+    "barista-server": "latest",
     "edge": "latest",
+    "express": "^4.13.4",
     "lodash": "latest",
     "require-uncached": "latest",
     "tern": "latest"
