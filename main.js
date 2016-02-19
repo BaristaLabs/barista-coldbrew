@@ -1,8 +1,7 @@
-﻿var requireUncached = require('require-uncached');
-var app = require('app');
+﻿var app = require('app');
 var path = require('path');
 var BrowserWindow = require('browser-window');
-var BaristaServer = requireUncached("../barista-core/server.js");
+var bs = require("barista-server");
 
 // Report crashes to our server.
 //TODO: yeah, so I think we need an endpoint for this...
@@ -22,19 +21,23 @@ app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        BaristaServer.shutdown();
+        if (baristaServer)
+            baristaServer.shutdown();
         app.quit();
     }
 });
 
-var finishCreatingBaristaServer = function (webContents, server) {
-    baristaServer = server;
+var finishCreatingBaristaServer = function (webContents, loadFiddle) {
 
     var address = baristaServer.address();
     if (address.address === "::")
         address.address = "localhost";
+    
+    var url = "http://" + address.address + ":" + address.port;
+    webContents.executeJavaScript("var __baristaServerUrl = '" + url + "';");
 
-    webContents.executeJavaScript("var __baristaServerUrl = 'http://" + address.address + ":" + address.port + "'");
+    if (!!loadFiddle)
+        mainWindow.loadURL(url + "/fiddle");
 };
 
 // This method will be called when Electron has finished
@@ -50,16 +53,21 @@ app.on('ready', function (e) {
         //"web-security": false,
         preload: __dirname + "/preload.js"
     });
-   
-    // and load the index.html of the app.
-    mainWindow.loadURL('file://' + path.join(__dirname, 'node_modules/barista-fiddle/fiddle/index.html'));
-    
+
+    baristaServer = new bs.BaristaServer();
+    baristaServer.createBaristaServer(function (baristaServer) {
+        finishCreatingBaristaServer(mainWindow.webContents, true)
+    });
+
     //when the dom is ready, create a barista server.
     mainWindow.webContents.on('dom-ready', function (e) {
         //this was initially did-start-loading, but that event fires on iframe loads too...
+        if (baristaServer)
+            baristaServer.shutdown();
 
-        BaristaServer.createBaristaServer(function (baristaServer) {
-            finishCreatingBaristaServer(mainWindow.webContents, baristaServer);
+        baristaServer = new bs.BaristaServer();
+        baristaServer.createBaristaServer(function (baristaServer) {
+            finishCreatingBaristaServer(mainWindow.webContents);
         });
     });
 
