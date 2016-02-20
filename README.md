@@ -8,7 +8,7 @@ Until packages are built, this repo will need to be forked in order to install a
 # Clone the repository
 $ git clone https://github.com/baristalabs/barista-coldbrew
 # Go into the repository
-$ cd clicky
+$ cd barista-coldbrew
 # Install dependencies and run the app
 $ npm install && npm start
 ```
